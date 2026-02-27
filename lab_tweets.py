@@ -157,10 +157,11 @@ There are two extra credit opportunities for this lab, worth one point each.
     If you add this to your repo you will get +1 point.
 '''
 
-import json
-import zipfile
+from datetime import datetime
 import glob
+import json
 import matplotlib.pyplot as plt
+import zipfile
 
 all_tweets = []
 
@@ -176,6 +177,11 @@ for zip_path in zip_files:
             tweets = json.load(f)
             all_tweets.extend(tweets)
 
+# # Extra credit: Using the latest version of the data
+# with open('tweets_01-08-2021.json', "r") as f:
+#     tweets = json.load(f)
+#     all_tweets.extend(tweets)
+
 counts = {
     "trump": 0,
     "obama": 0,
@@ -187,12 +193,25 @@ counts = {
     "vote": 0,
 }
 
+time_freq = {}
 for tweet in all_tweets:
+    if 'created_at' in tweet:
+        raw_time = tweet['created_at']
+        hour = raw_time[11:13] 
+
+        if hour in time_freq:
+            time_freq[hour] += 1
+        else:
+            time_freq[hour] = 1
+
     text = tweet["text"].lower()
-    
+
     for word in counts:
         if word in text:
             counts[word] += 1
+
+sorted_time_freq = dict(sorted(time_freq.items()))
+print("sorted_time_freq=", sorted_time_freq)
 
 print("len(tweets)=", len(all_tweets))
 print("counts=", counts)
@@ -215,4 +234,10 @@ plt.bar(percentages.keys(), percentages.values())
 plt.ylabel("% of Tweets")
 plt.title("Trump Tweet Keyword Frequency")
 plt.savefig("tweet_keyword_frequency.png")
+plt.show()
+
+plt.bar(sorted_time_freq.keys(), sorted_time_freq.values())
+plt.ylabel("number of tweets")
+plt.title("Frequency of Trump Tweets at Certain Hours")
+plt.savefig("tweet_time_frequency.png")
 plt.show()
