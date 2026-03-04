@@ -18,12 +18,12 @@ The following bar chart shows the distribution of the frequency of keywords in T
 ![Tweet Keyword Chart](tweet_keyword_frequency.png)
 
 The following bar chart shows the frequency Trump's tweets by hour of day.
-![Tweet Activity Chart](tweet_keyword_frequency.png)
+![Tweet Activity Chart](tweet_time_frequency.png)
 
 ---
 
 ### 2. Extra Credit: Latest Trump Tweets
-This table shows the frequency of certain words in Trump's tweets, extracted from a JSON archive with his latest tweets.
+This table shows the frequency of certain words in Trump's latest tweets, extracted from a different JSON archive containing his latest tweets.
 
 | Keyword    | Count2 | Percentage2 |
 |------------|--------|------------|
@@ -36,9 +36,9 @@ This table shows the frequency of certain words in Trump's tweets, extracted fro
 | win        |   2878 |      7.93% |
 | vote       |   2487 |      6.85% |
 
-The following bar chart shows the distribution of the frequency of keywords in Trump's latest tweets from the new dataset.
+The following bar chart shows the distribution of the frequency of keywords in Trump's latest tweets.
 ![Tweet Keyword Chart2](latest_tweet_keyword_frequency.png)
 
-The following bar chart shows the frequency Trump's latest tweets by hour of day also from the new dataset.
+The following bar chart shows the frequency Trump's latest tweets by hour of day.
 
 ![Tweet Activity Chart2](latest_tweet_time_frequency.png)
