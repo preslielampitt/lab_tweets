@@ -157,6 +157,7 @@ There are two extra credit opportunities for this lab, worth one point each.
     If you add this to your repo you will get +1 point.
 '''
 
+
 from datetime import datetime
 import glob
 import json
@@ -176,11 +177,6 @@ for zip_path in zip_files:
         with z.open(file_name) as f:
             tweets = json.load(f)
             all_tweets.extend(tweets)
-
-# # Extra credit: Using the latest version of the data
-# with open('tweets_01-08-2021.json', "r") as f:
-#     tweets = json.load(f)
-#     all_tweets.extend(tweets)
 
 counts = {
     "trump": 0,
@@ -213,10 +209,11 @@ for tweet in all_tweets:
 sorted_time_freq = dict(sorted(time_freq.items()))
 print("sorted_time_freq=", sorted_time_freq)
 
-print("len(tweets)=", len(all_tweets))
+print("len(all_tweets)=", len(all_tweets))
 print("counts=", counts)
+
 total = len(all_tweets)
-print("\nPercentages:")
+print("\nPercentages1:")
 for word, count in counts.items():
     percent = (count / total) * 100
     print(f"{word}: {percent:.2f}%")
@@ -229,15 +226,85 @@ for word, count in counts.items():
     print("| {:<10} | {:>6} | {:>9.2f}% |".format(word, count, percent))
 
 percentages = {w: (c / total) * 100 for w, c in counts.items()}
+print()
 
+# all_tweets charts
 plt.bar(percentages.keys(), percentages.values())
 plt.ylabel("% of Tweets")
-plt.title("Trump Tweet Keyword Frequency")
-plt.savefig("tweet_keyword_frequency.png")
+plt.title("Frequency of Keywords in Trump Tweets")
+plt.savefig("tweet_keyword_frequency1.png")
 plt.show()
 
 plt.bar(sorted_time_freq.keys(), sorted_time_freq.values())
-plt.ylabel("number of tweets")
-plt.title("Frequency of Trump Tweets at Certain Hours")
+plt.ylabel("# of Tweets")
+plt.title("Frequency of Trump Tweets by Hour of Day")
 plt.savefig("tweet_time_frequency.png")
+plt.show()
+
+
+# Extra credit: Using the latest version of the data
+latest_tweets = []
+with open('tweets_01-08-2021.json', "r") as f:
+    tweets = json.load(f)
+    latest_tweets.extend(tweets)
+
+counts2 = {
+    "trump": 0,
+    "obama": 0,
+    "mexico": 0,
+    "russia": 0,
+    "fake news": 0,
+    "china": 0,
+    "win": 0,
+    "vote": 0,
+}
+
+time_freq2 = {}
+for tweet in latest_tweets:
+    if 'date' in tweet:
+        raw_time = tweet['date']
+        hour = raw_time[11:13] 
+
+        if hour in time_freq2:
+            time_freq2[hour] += 1
+        else:
+            time_freq2[hour] = 1
+
+    text = tweet["text"].lower()
+
+    for word in counts2:
+        if word in text:
+            counts2[word] += 1
+
+sorted_time_freq2 = dict(sorted(time_freq2.items()))
+print("sorted_time_freq2=", sorted_time_freq2)
+print('len(latest_tweets)=', len(latest_tweets))
+print("counts2=", counts2)
+
+total2 = len(latest_tweets)
+print("\nPercentages2:")
+for word, count in counts2.items():
+    percent = (count / total) * 100
+    print(f"{word}: {percent:.2f}%")
+
+print("| {:<10} | {:>6} | {:>10} |".format("Keyword", "Count2", "Percentage2"))
+print("|------------|--------|------------|")
+
+for word, count in counts2.items():
+    percent = (count / total) * 100
+    print("| {:<10} | {:>6} | {:>9.2f}% |".format(word, count, percent))
+
+percentages2 = {w: (c / total) * 100 for w, c in counts2.items()}
+
+# latest_tweets charts
+plt.bar(percentages2.keys(), percentages2.values())
+plt.ylabel("% of Tweets")
+plt.title("Frequency of Keywords in Trump Tweets (Latest)")
+plt.savefig("latest_tweet_keyword_frequency.png")
+plt.show()
+
+plt.bar(sorted_time_freq2.keys(), sorted_time_freq2.values())
+plt.ylabel("# of Tweets")
+plt.title("Frequency of Trump Tweets by Hour of Day (Latest)")
+plt.savefig("latest_tweet_time_frequency.png")
 plt.show()
